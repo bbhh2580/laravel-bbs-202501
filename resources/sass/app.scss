@@ -63,3 +63,13 @@ body {
         }
     }
 }
+
+/* User register page */
+.register-page {
+    img.captcha {
+        cursor: pointer;
+        border: 1px solid #0d6efd;
+        border-radius: 4px;
+        padding: 3px;
+    }
+}
