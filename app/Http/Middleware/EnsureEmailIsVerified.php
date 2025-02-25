@@ -7,7 +7,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class EnsureEmailsVerified
+
+class EnsureEmailIsVerified
 {
     /**
      * Handle an incoming request.
