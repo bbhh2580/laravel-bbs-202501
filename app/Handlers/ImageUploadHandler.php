@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ImageUploadHandler;
+namespace App\Handlers;
 
 use Illuminate\Support\Str;
 

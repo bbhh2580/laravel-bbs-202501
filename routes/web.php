@@ -22,7 +22,7 @@ Route::get('/', [PagesController::class, 'root'])->name('root');
 Auth::routes(['verify' => true]);
 
 // 手动注册邮箱验证相关路由
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', [VerificationController::class, 'show'])
         ->name('verification.notice');
 
