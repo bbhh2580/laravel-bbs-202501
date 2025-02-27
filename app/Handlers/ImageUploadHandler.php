@@ -3,6 +3,7 @@
 namespace App\Handlers;
 
 use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 /**
  * Image upload handler
@@ -20,9 +21,10 @@ class ImageUploadHandler
      * @param $file
      * @param $folder
      * @param $file_prefix
+     * @param int|bool $max_width
      * @return array|bool
      */
-    public function save($file, $folder, $file_prefix): array|bool
+    public function save($file, $folder, string $file_prefix, int|bool $max_width = false): array|bool
     {
         // build storage folder
         // ex:  upload/images/avatars/201709/21/
@@ -46,8 +48,27 @@ class ImageUploadHandler
         // Move the file to the specified folder
         $file->move($upload_path, $filename);
 
+        // If the specified width is provided and the image is not the animated GIF, reduce the size
+        if ($max_width && $extension != 'gif') {
+            $this->reducesSize($upload_path . '/' . $filename, $max_width);
+        }
+
         return [
             'path' => config('app.url') . "/$folder_name/$filename"
         ];
     }
+
+    /**
+     * Reduce the size of the image
+     *
+     * @param string $file_path
+     * @param int $max_width
+     */
+    public function reducesSize(string $upload_path, int $max_width): void
+    {
+        Image::read($upload_path)
+            ->scale(width: $max_width)
+            ->save();
+    }
+
 }
