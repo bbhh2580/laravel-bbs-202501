@@ -57,3 +57,16 @@ Route::middleware(['auth'])->group(function () {
 // POST       password/email ...... password.email › Auth\ForgotPasswordController@sendResetLinkEmail
 
 Route::resource('users', 'UserController', ['only' => ['index', 'show', 'edit', 'update']]);
+
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'show',
+    'create', 'store', 'update', 'edit', 'destroy']]);
+// GET|HEAD        topics ....................................... topics.index › TopicsController@index
+// POST            topics ....................................... topics.store › TopicsController@store
+// GET|HEAD        topics/create .............................. topics.create › TopicsController@create
+// GET|HEAD        topics/{topic} ................................. topics.show › TopicsController@show
+// PUT|PATCH       topics/{topic} ............................. topics.update › TopicsController@update
+// DELETE          topics/{topic} ........................... topics.destroy › TopicsController@destroy
+// GET|HEAD        topics/{topic}/edit ............................ topics.edit › TopicsController@edit
+// GET|HEAD        users/{user} ..................................... users.show › UsersController@show
+// PUT|PATCH       users/{user} ................................. users.update › UsersController@update
+// GET|HEAD        users/{user}/edit ................................ users.edit › UsersController@edit
