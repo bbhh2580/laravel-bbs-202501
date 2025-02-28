@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
         $user = User::find(1);
         $user->name = 'hana';
         $user->email = 'na3540563@gmail.com';
-        $user->password = bcrypt('11111111');
+        $user->password = bcrypt('12345678');
         $user->avatar =config('app.url') . 'https://picsum.photos/200/300';
         $user->save();
     }

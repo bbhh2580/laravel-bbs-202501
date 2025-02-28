@@ -19,11 +19,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
        $avatars = [
-           config('app.url') . '/uploads/images/default-avatars/200.jpg',
-           config('app.url') . '/uploads/images/default-avatars/300.jpg',
-           config('app.url') . '/uploads/images/default-avatars/400.jpg',
-           config('app.url') . '/uploads/images/default-avatars/500.jpg',
-           config('app.url') . '/uploads/images/default-avatars/600.jpg',
+           config('app.url') . '/uploads/images/avatars/202502/26/1.jpg',
+           config('app.url') . '/uploads/images/avatars/202502/26/2.jpg',
+           config('app.url') . '/uploads/images/avatars/202502/26/3.jpg',
+           config('app.url') . '/uploads/images/avatars/202502/26/4.jpg',
+           config('app.url') . '/uploads/images/avatars/202502/26/5.jpg',
        ];
 
         return [
