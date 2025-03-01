@@ -22,3 +22,11 @@ function category_nav_active(int $category_id): string
 {
     return active_class((if_route('categories.show') && if_route_param('category', $category_id)));
 }
+
+/**
+ *  make excerpt for the topic body.
+ *
+ * @param string $value
+ * @param int $length
+ * @return \Illuminate\Support\Stringable|mixed
+ */
