@@ -31,7 +31,12 @@
             {{-- 用户发布的内容 --}}
             <div class="card ">
                 <div class="card-body">
-                    No content available.
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active bg-transparent" herf="#">Posted</a></li>
+                        <li class="nav-item"><a class="nav-link" herf="#">Replied</a></li>
+
+                    </ul>
+                    @include('users._topics',['topics' => $user->topics()->recent()->paginate(5)])
                 </div>
             </div>
 
