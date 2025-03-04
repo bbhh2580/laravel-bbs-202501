@@ -15,3 +15,5 @@ yarn-error.log
 
 # Ignore user's avatar uploads
 /public/uploads/images/avatars/*
+# Ignore topic images
+/public/uploads/images/topics/*
