@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\TopicsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use Mews\Captcha\Captcha;
 use Mews\Captcha\CaptchaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -75,4 +77,4 @@ Route::resource('topics', 'TopicsController', ['only' => ['index', 'show',
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 // GET|HEAD        categories/{category} .................. categories.show › CategoriesController@show
 
-Route::post('upload_image', [TopicsController::class, 'upload'])->name('topics.upload_image');
+Route::post('upload_image', [TopicsController::class, 'uploadImage'])->name('topics.upload_image');
