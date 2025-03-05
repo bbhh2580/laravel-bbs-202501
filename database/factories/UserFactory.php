@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -18,13 +19,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-       $avatars = [
-           config('app.url') . '/uploads/images/avatars/202502/26/1.jpg',
-           config('app.url') . '/uploads/images/avatars/202502/26/2.jpg',
-           config('app.url') . '/uploads/images/avatars/202502/26/3.jpg',
-           config('app.url') . '/uploads/images/avatars/202502/26/4.jpg',
-           config('app.url') . '/uploads/images/avatars/202502/26/5.jpg',
-       ];
+        $createdAt = Carbon::now()->subDays(rand(0, 30))->addHours(rand(1, 24)); // 随机过去 30 天内的时间
+        $updatedAt = (rand(0, 1) ? $createdAt->clone()->addHours(rand(1, 48)) : $createdAt); // 有一定概率相同
+
+        $avatars = [
+            config('app.url') . '/uploads/images/avatars/202502/26/1.jpg',
+            config('app.url') . '/uploads/images/avatars/202502/26/2.jpg',
+            config('app.url') . '/uploads/images/avatars/202502/26/3.jpg',
+            config('app.url') . '/uploads/images/avatars/202502/26/4.jpg',
+            config('app.url') . '/uploads/images/avatars/202502/26/5.jpg',
+        ];
 
         return [
             'name' => $this->faker->name(),
@@ -34,6 +38,8 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'introduction' => $this->faker->sentence(),
             'avatar' => $this->faker->randomElement($avatars),
+            'created_at' => $createdAt,
+            'updated_at' => $updatedAt,
         ];
     }
 
@@ -42,7 +48,7 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function unverified()
+    public function unverified(): static
     {
         return $this->state(function (array $attributes) {
             return [

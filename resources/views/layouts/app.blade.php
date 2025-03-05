@@ -11,6 +11,7 @@
 
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description', 'hana\'s bbs')">
+    <meta name="slug" content="@yield('slug', env('APP_URL'))">
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">

@@ -10,6 +10,18 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 
+/**
+ * Class User
+ *
+ * @package App\Models
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $avatar
+ * @property string $introduction
+ * @property Reply replies
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, MustVerifyEmailTrait;
@@ -46,14 +58,34 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-
     /**
-     *  User has many topics.
+     * User has many topics.
      *
      * @return HasMany
      */
     public function topics(): HasMany
     {
         return $this->hasMany(Topic::class);
+    }
+
+    /**
+     * User has many replies.
+     *
+     * @return HasMany
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Check if the user is the author of the model.
+     *
+     * @param object $model
+     * @return bool
+     */
+    public function isAuthorOf(object $model): bool
+    {
+        return $this->id == $model->user_id;
     }
 }
