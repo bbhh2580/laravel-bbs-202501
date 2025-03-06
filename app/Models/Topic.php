@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *  Class Topic
+ * Class Topic
  * @package App\Models
  *
  * @property int id
@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int order
  * @property Category category
  * @property User user
+ * @property Reply replies
  */
 class Topic extends Model
 {
@@ -33,11 +34,10 @@ class Topic extends Model
      *
      * @var string[]
      */
-
     protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
 
     /**
-     *  Define Topic belongs to Category
+     * Define Topic belongs to Category
      *
      * @return BelongsTo
      */
@@ -57,24 +57,34 @@ class Topic extends Model
     }
 
     /**
-     *  Query scope for order
-     *  使用 scope 定义一个本地作用域的方法, 我们可以在查询构造器中调用这个方法
-     *  它其实就是我们自定义的一部分查询逻辑, 我们可以将其封装在作用域中, 以便在应用中复用
+     * Define Topic has many replies
+     *
+     * @return HasMany
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Query scope for order
+     * 使用 scope 定义一个本地作用域的方法, 我们可以在查询构造器中调用这个方法
+     * 它其实就是我们自定义的一部分查询逻辑, 我们可以将其封装在作用域中, 以便在应用中复用
      *
      * @param $query
      * @param $order
      */
     public function scopeWithOrder($query, $order): void
     {
-       switch ($order) {
-           case 'recent':
-               $query->recent();
-               break;
+        switch ($order) {
+            case 'recent':
+                $query->recent();
+                break;
 
-               default:
-                   $query->recent();
-                   break;
-       }
+            default:
+                $query->recentReplied();
+                break;
+        }
     }
 
     /**
@@ -89,7 +99,7 @@ class Topic extends Model
     }
 
     /**
-     * Query scope for the recent topic
+     * Query scope for recent topics
      *
      * @param $query
      * @return mixed
@@ -99,4 +109,3 @@ class Topic extends Model
         return $query->orderBy('created_at', 'desc');
     }
 }
-

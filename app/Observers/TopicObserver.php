@@ -20,4 +20,13 @@ class TopicObserver
         $topic->body = clean($topic->body, 'user_topic_body');
         $topic->excerpt = make_excerpt($topic->body);
     }
+
+    /**
+     *
+     */
+    public function created(Topic $topic): void
+    {
+        $topic->slug = env('APP_URL') . '/topics/' . $topic->id;
+
+    }
 }
