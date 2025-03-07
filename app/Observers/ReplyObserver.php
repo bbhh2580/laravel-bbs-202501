@@ -37,9 +37,18 @@ class ReplyObserver
      * @return void
      * @throws ValidationException
      */
+    /**
+     * When creating the reply, clean the content's HTML tags.
+     *
+     * @param Reply $reply
+     * @return void
+     * @throws ValidationException
+     */
     public function creating(Reply $reply): void
     {
+//        dd($reply->content);
         $reply->content = clean($reply->content, 'user_topic_body');
+
 
         // 在这里我们重新去验证回复的内容, 因为可能遇到 xss 攻击的问题我们过滤完了之后内容为空
         // <script>alert('This is dangerous!!!!')</script>

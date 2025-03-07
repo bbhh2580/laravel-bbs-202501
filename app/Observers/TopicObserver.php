@@ -27,6 +27,6 @@ class TopicObserver
     public function created(Topic $topic): void
     {
         $topic->slug = env('APP_URL') . '/topics/' . $topic->id;
-
+        $topic->save();
     }
 }

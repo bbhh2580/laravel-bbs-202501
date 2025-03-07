@@ -27,9 +27,9 @@ class RepliesController extends Controller
         $reply->content = $request->content;
         $reply->user_id = Auth::id();
         $reply->topic_id = $request->topic_id;
+//      dd($reply->content);
         $reply->save();
 
-        dd($reply->topic->slug);
         return redirect()->to($reply->topic->slug)->with('success', 'Reply created successfully.');
     }
 

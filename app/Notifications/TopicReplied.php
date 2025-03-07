@@ -33,7 +33,7 @@ class TopicReplied extends Notification
     public function via(mixed $notifiable): array
     {
         // return ['mail'];
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -69,10 +69,13 @@ class TopicReplied extends Notification
      */
     public function toMail(mixed $notifiable): MailMessage
     {
+//        $this->reply->topic->slug  http:// 127.0.0.1:8000/topics/1
+//        $this->reply->topic->slug . '#reply' . $this->reply->id; // 127.0.0.1:8000/topics/1#reply1
+
         return (new MailMessage)
             ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->action('Notification Action', url('/'));
+
     }
 
     /**
