@@ -24,7 +24,7 @@ class RepliesController extends Controller
      */
     public function store(ReplyRequest $request, Reply $reply): RedirectResponse
     {
-        $reply->content = $request->content;
+        $reply->message = $request->message;
         $reply->user_id = Auth::id();
         $reply->topic_id = $request->topic_id;
 //      dd($reply->content);
