@@ -84,8 +84,8 @@
                         <p class="text-muted">No replies yet.</p>
                     @endif
                     <div class="mb-2">
-                        <p><strong>{{ $childReply->user->name }}</strong> - {{ $childReply->created_at->diffForHumans() }}</p>
-                        <p>{!! $childReply->message !!}</p>
+                        <p><strong>MockUser2</strong> - 10 minutes ago</p>
+                        <p>Another mock reply to demonstrate nesting.</p>
                     </div>
                     <div class="mb-2">
                         <p><strong>MockUser2</strong> - 10 minutes ago</p>

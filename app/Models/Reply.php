@@ -42,7 +42,7 @@ class Reply extends Model
     // 获取子回复
     public function children()
     {
-        return $this->hasMany(Reply::class, 'parent_id')->orderBy('created_at', 'desc');
+        return $this->hasMany(Reply::class, 'parent_id')->orderBy('created_at', 'asc');
     }
 
     // 获取父回复

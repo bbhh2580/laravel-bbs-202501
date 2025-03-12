@@ -96,3 +96,7 @@ Route::post('/replies/{reply}/reply', [RepliesController::class, 'storeReply'])-
 Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
 
 Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+
+// 模拟登陆，用来测试RBAC
+Route::get('/impersonate/{id}', [UsersController::class, 'impersonateUser'])->name('impersonate');
+Route::get('/stop-impersonating', [UsersController::class, 'stopImpersonating'])->name('stopImpersonating');
