@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 /**
  * Class Reply
@@ -25,7 +28,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $fillable = ['message'];
+    protected $fillable = ['topic_id', 'user_id', 'message', 'parent_id'];
 
     /**
      * A reply belongs to a topic.
@@ -35,6 +38,17 @@ class Reply extends Model
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
+    }
+    // 获取子回复
+    public function children()
+    {
+        return $this->hasMany(Reply::class, 'parent_id')->orderBy('created_at', 'desc');
+    }
+
+    // 获取父回复
+    public function parent()
+    {
+        return $this->belongsTo(Reply::class, 'parent_id');
     }
 
     /**
@@ -57,4 +71,6 @@ class Reply extends Model
     {
         return $query->orderBy('created_at', 'desc');
     }
+
+
 }

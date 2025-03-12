@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('replies', function (Blueprint $table) {
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->references('id')->on('replies');
+            $table->unsignedBigInteger('parent_id')->nullable()->after('id'); // 允许为空
+            $table->foreign('parent_id')->references('id')->on('replies')->onDelete('cascade'); // 级联删除
         });
     }
 
@@ -27,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('replies', function (Blueprint $table) {
-            //
+            $table->dropForeign(['parent_id']);
+            $table->dropColumn('parent_id');
         });
     }
 };

@@ -90,5 +90,9 @@ Route::post('upload_image', [TopicsController::class, 'uploadImage'])->name('top
 // 话题回复相关的路由
 Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
 
+Route::post('/replies/{reply}/reply', [RepliesController::class, 'storeReply'])->name('replies.storeReply');
+
 // 通知相关的路由
 Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
+
+Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
