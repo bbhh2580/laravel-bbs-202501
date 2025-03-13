@@ -13,7 +13,7 @@ function route_class(): array|string|null
 }
 
 /**
- * Get  the active class for the current route.
+ * Get the active class for the current route.
  *
  * @param int $category_id
  * @return string
@@ -24,7 +24,7 @@ function category_nav_active(int $category_id): string
 }
 
 /**
- *  make excerpt for the topic body.
+ * Make excerpt for the topic body.
  *
  * @param string $value
  * @param int $length
@@ -34,4 +34,15 @@ function make_excerpt(string $value, int $length = 200): mixed
 {
     $excerpt = trim(preg_replace('/\r\n|\r|\n+/', ' ', strip_tags($value)));
     return str()->limit($excerpt, $length);
+}
+
+/**
+ * Check if the current reply's child is collapsed.
+ *
+ * @return bool
+ * @param int $reply_id
+ */
+function collapse(int $reply_id): bool
+{
+    return request()->query('reply_id') == $reply_id && request()->query('child');
 }

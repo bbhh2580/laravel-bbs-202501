@@ -4,18 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('replies', function (Blueprint $table) {
-            $table->unsignedInteger('parent_id')->nullable()->after('id'); // 允许为空
-            $table->foreign('parent_id')->references('id')->on('replies')->onDelete('cascade'); // 级联删除
+            $table->integer('parent_id')->unsigned()->nullable(false)->default(0)->comment('父级 ID')->after('topic_id');
         });
     }
 
@@ -24,10 +22,9 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('replies', function (Blueprint $table) {
-            $table->dropForeign(['parent_id']);
             $table->dropColumn('parent_id');
         });
     }

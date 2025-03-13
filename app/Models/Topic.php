@@ -63,7 +63,7 @@ class Topic extends Model
      */
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)->where('parent_id', 0);
     }
 
     /**
@@ -110,13 +110,13 @@ class Topic extends Model
     }
 
     /**
-     *  Update the reply count of the topic.
+     * Update the reply count of the topic.
      *
      * @return void
      */
     public function updateReplyCount(): void
     {
-        $this->reply_count = $this->replies->count();
+        $this->reply_count = Reply::where('topic_id', $this->id)->count();
         $this->save();
     }
 }

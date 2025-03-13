@@ -6,7 +6,6 @@ use App\Models\Reply;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ReplyRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RepliesController extends Controller
@@ -14,12 +13,6 @@ class RepliesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    public function index()
-    {
-        $replies = Reply::whereNull('parent_id')->with('children')->latest()->get();
-        return view('replies.index', compact('replies'));
     }
 
     /**
@@ -31,30 +24,20 @@ class RepliesController extends Controller
      */
     public function store(ReplyRequest $request, Reply $reply): RedirectResponse
     {
+        $child = false;
+        if ($request->parent_id) {
+            $reply->parent_id = $request->parent_id;
+            $child = true;
+        }
+
         $reply->message = $request->message;
         $reply->user_id = Auth::id();
         $reply->topic_id = $request->topic_id;
         $reply->save();
 
-        return redirect()->to($reply->topic->slug . '#reply' . $reply->id)->with('success', 'Reply created successfully.');
-    }
-
-    // 处理子回复存储
-    public function storeReply(Request $request, Reply $reply)
-    {
-//        dd($request->all()); // 这行用于调试
-        $request->validate([
-            'message' => 'required|min:2',
-        ]);
-
-        Reply::create([
-            'topic_id' => $reply->topic_id, // 继承父级回复的话题ID
-            'user_id' => Auth::id(),
-            'message' => $request->input('message'),
-            'parent_id' => $reply->id, // 记录父级回复
-        ]);
-
-        return back()->with('success', 'Reply added successfully.');
+        return redirect()
+            ->to($reply->topic->slug . "?child=$child&reply_id=$reply->parent_id#reply$reply->id")
+            ->with('success', 'Reply created successfully.');
     }
 
     /**
@@ -66,9 +49,20 @@ class RepliesController extends Controller
      */
     public function destroy(Reply $reply): RedirectResponse
     {
+        // If the reply has children, do not delete it.
+        if ($reply->child()->exists()) {
+            return back()->with('danger', 'This reply has children, please delete them first.');
+        }
+
+        // For collapsed reply's child item.
+        $child = false;
+        if ($reply->parent_id) {
+            $child = true;
+        }
+
         $this->authorize('destroy', $reply);
         $reply->delete();
 
-        return redirect()->to($reply->topic->slug)->with('success', 'Deleted successfully.');
+        return redirect()->to($reply->topic->slug . "?child=$child&reply_id=$reply->parent_id#reply$reply->id")->with('success', 'Deleted successfully.');
     }
 }

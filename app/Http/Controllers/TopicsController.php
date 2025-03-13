@@ -6,7 +6,6 @@ use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\Request;
 use App\Models\Category;
 use App\Models\Topic;
-use App\Models\Reply;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -17,47 +16,47 @@ use Illuminate\Support\Facades\Auth;
 
 class TopicsController extends Controller
 {
+    /**
+     * TopicsController constructor.
+     */
     public function __construct()
     {
+        // Auth middleware
+        // 只让未登录用户访问话题列表页和话题详情页, 其他页面需要登录
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
     /**
-     *  Show topics list.
+     * Show topics list.
      *
-     * @return Application|Factory|View
+     * @param Request $request
+     * @param Topic $topic
+     * @return Factory|View|Application
      */
     public function index(Request $request, Topic $topic): Factory|View|Application
     {
         $topics = $topic->withOrder($request->order)
-            ->with('user', 'category')  // 使用 with 方法加载了topic数据，预加载是为了避免 N+1 问题
+            ->with('user', 'category') // 使用 with 方法预加载防止 N+1 问题
             ->paginate(20);
         return view('topics.index', compact('topics'));
     }
 
     /**
-     * Show topic detail
+     * Show topic detail.
      *
      * @param Topic $topic
-     * @return Application|Factory|View
+     * @return Factory|View|Application
      */
     public function show(Topic $topic): Factory|View|Application
     {
-        // 获取当前话题的所有顶级回复（parent_id 为 NULL）
-        $replies = $topic->replies()
-            ->whereNull('parent_id') // 只获取顶级回复
-            ->with('user', 'children.user') // 预加载子回复
-            ->orderBy('created_at', 'asc') // 让回复按照时间排序
-            ->get();
-
-        return view('topics.show', compact('topic', 'replies'));
+        return view('topics.show', compact('topic'));
     }
 
     /**
-     *  Display create topic form.
+     * Display create topic form.
      *
      * @param Topic $topic
-     * @return Application|Factory|View
+     * @return Factory|View|Application
      */
     public function create(Topic $topic): Factory|View|Application
     {
@@ -66,7 +65,7 @@ class TopicsController extends Controller
     }
 
     /**
-     *  Store topic.
+     * Store topic.
      *
      * @param TopicRequest $request
      * @param Topic $topic
@@ -77,17 +76,17 @@ class TopicsController extends Controller
         $topic->fill($request->all());
         $topic->user_id = Auth::id();
         $topic->save();
-        return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+        return redirect()->route('topics.show', $topic->id)->with('success', 'Created successfully.');
     }
 
     /**
-     * Display edit topic  form.
+     * Display edit topic form.
      *
      * @param Topic $topic
      * @return Application|Factory|View
      * @throws AuthorizationException
      */
-    public function edit(Topic $topic): Factory|View|Application
+    public function edit(Topic $topic): View|Factory|Application
     {
         $this->authorize('update', $topic);
         $categories = Category::all();
@@ -107,11 +106,11 @@ class TopicsController extends Controller
         $this->authorize('update', $topic);
         $topic->update($request->all());
 
-        return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
+        return redirect()->route('topics.show', $topic->id)->with('success', 'Updated successfully.');
     }
 
     /**
-     *  Destroy topic.
+     * Destroy topic.
      *
      * @param Topic $topic
      * @return RedirectResponse
@@ -122,11 +121,11 @@ class TopicsController extends Controller
         $this->authorize('destroy', $topic);
         $topic->delete();
 
-        return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
+        return redirect()->route('topics.index')->with('success', 'Deleted successfully.');
     }
 
     /**
-     *  Topic upload image
+     * Topic upload image.
      *
      * @param Request $request
      * @param ImageUploadHandler $handler
@@ -144,7 +143,7 @@ class TopicsController extends Controller
             $result = $handler->save($file, 'topics', Auth::id(), 1024);
             if ($result) {
                 $data['file_path'] = $result['path'];
-                $data['msg'] = 'Upload success!';
+                $data['msg'] = 'Upload succeeded!';
                 $data['success'] = true;
             }
         }

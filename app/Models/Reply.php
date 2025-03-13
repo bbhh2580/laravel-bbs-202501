@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
 
 /**
  * Class Reply
@@ -15,9 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int id
  * @property string message
  * @property int topic_id
+ * @property int parent_id
  * @property int user_id
  * @property Topic topic
  * @property User user
+ * @property Reply child
  */
 class Reply extends Model
 {
@@ -28,7 +28,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $fillable = ['topic_id', 'user_id', 'message', 'parent_id'];
+    protected $fillable = ['message'];
 
     /**
      * A reply belongs to a topic.
@@ -38,17 +38,6 @@ class Reply extends Model
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
-    }
-    // 获取子回复
-    public function children()
-    {
-        return $this->hasMany(Reply::class, 'parent_id')->orderBy('created_at', 'asc');
-    }
-
-    // 获取父回复
-    public function parent()
-    {
-        return $this->belongsTo(Reply::class, 'parent_id');
     }
 
     /**
@@ -62,6 +51,16 @@ class Reply extends Model
     }
 
     /**
+     * A reply can have many children.
+     *
+     * @return HasMany
+     */
+    public function child(): HasMany
+    {
+        return $this->hasMany(Reply::class, 'parent_id');
+    }
+
+    /**
      * Scope function to get the recent replies.
      *
      * @param $query
@@ -71,6 +70,4 @@ class Reply extends Model
     {
         return $query->orderBy('created_at', 'desc');
     }
-
-
 }
