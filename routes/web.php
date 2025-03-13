@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\RepliesController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
@@ -64,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
 // POST       password/email ...... password.email › Auth\ForgotPasswordController@sendResetLinkEmail
 
 // 用户个人中心相关路由
-Route::resource('users', 'UserController', ['only' => ['index', 'show', 'edit', 'update']]);
+Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'edit', 'update']]);
 
 // 话题相关的路由
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'show',
@@ -100,3 +101,4 @@ Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'cr
 // 模拟登陆，用来测试RBAC
 Route::get('/impersonate/{id}', [UsersController::class, 'impersonateUser'])->name('impersonate');
 Route::get('/stop-impersonating', [UsersController::class, 'stopImpersonating'])->name('stopImpersonating');
+

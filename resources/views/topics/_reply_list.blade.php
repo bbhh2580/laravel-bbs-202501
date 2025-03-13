@@ -83,18 +83,18 @@
                     @else
                         <p class="text-muted">No replies yet.</p>
                     @endif
-                    <div class="mb-2">
-                        <p><strong>MockUser2</strong> - 10 minutes ago</p>
-                        <p>Another mock reply to demonstrate nesting.</p>
-                    </div>
-                    <div class="mb-2">
-                        <p><strong>MockUser2</strong> - 10 minutes ago</p>
-                        <p>Another mock reply to demonstrate nesting.</p>
-                    </div>
-                    <div class="mb-2">
-                        <p><strong>MockUser3</strong> - 15 minutes ago</p>
-                        <p>Yet another mock reply.</p>
-                    </div>
+{{--                    <div class="mb-2">--}}
+{{--                        <p><strong>MockUser2</strong> - 10 minutes ago</p>--}}
+{{--                        <p>Another mock reply to demonstrate nesting.</p>--}}
+{{--                    </div>--}}
+{{--                    <div class="mb-2">--}}
+{{--                        <p><strong>MockUser2</strong> - 10 minutes ago</p>--}}
+{{--                        <p>Another mock reply to demonstrate nesting.</p>--}}
+{{--                    </div>--}}
+{{--                    <div class="mb-2">--}}
+{{--                        <p><strong>MockUser3</strong> - 15 minutes ago</p>--}}
+{{--                        <p>Yet another mock reply.</p>--}}
+{{--                    </div>--}}
 
                     {{-- “加载更多” 功能，后续替换为后端 AJAX 加载 --}}
                     <button class="btn btn-sm btn-outline-secondary" onclick="showMoreReplies({{ $reply->id }})">
