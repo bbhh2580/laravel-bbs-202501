@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 return array(
 
     /*
      * Package URI
+     * 后台管理页面的 URI, http://your-site/admin
      *
      * @type string
      */
@@ -21,7 +24,7 @@ return array(
      *
      * @type string
      */
-    'title' => config('app.name'),
+    'title' => env('APP_NAME'),
 
     /*
      * The path to your model config directory
@@ -58,7 +61,18 @@ return array(
      * 		'Analytics' => array('E-Commerce' => 'page.ecommerce.analytics'),
      *	)
      */
-    'menu' => [],
+    'menu' => [
+        '用户与权限' => [
+            'users',
+            'roles',
+            'permissions',
+        ],
+        '内容管理' => [
+            'categories',
+            'topics',
+            'replies',
+        ]
+    ],
 
     /*
      * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
@@ -67,7 +81,8 @@ return array(
      * @type closure
      */
     'permission' => function () {
-        return Auth::check();
+        // 只要是能管理内容的用户就可以访问后台
+        return Auth::check() && Auth::user()->can('manage_contents');
     },
 
     /*
@@ -87,13 +102,15 @@ return array(
 
     /*
      * The menu item that should be used as the default landing page of the administrative section
+     * 用来作为后台主页的菜单项, 由 `user_dashboard` 选项决定, 菜单指的是中的 `menu` 项
      *
      * @type string
      */
-    'home_page' => '',
+    'home_page' => 'users',
 
     /*
      * The route to which the user will be taken when they click the "back to site" button
+     * 返回网站的路径
      *
      * @type string
      */
@@ -101,6 +118,7 @@ return array(
 
     /*
      * The login path is the path where Administrator will send the user if they fail a permission check
+     * 当用户没有权限访问后台时, 将会跳转到这个路径
      *
      * @type string
      */
@@ -115,6 +133,7 @@ return array(
 
     /*
      * This is the key of the return path that is sent with the redirection to your login_action. Session::get('redirect') will hold the return URL.
+     * 允许在登录成功使用 Session::get('redirect') 将用户重定向到后台原本想访问的页面
      *
      * @type string
      */
