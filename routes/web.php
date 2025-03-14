@@ -102,3 +102,5 @@ Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'cr
 Route::get('/impersonate/{id}', [UsersController::class, 'impersonateUser'])->name('impersonate');
 Route::get('/stop-impersonating', [UsersController::class, 'stopImpersonating'])->name('stopImpersonating');
 
+// 没有权限访问后台的提示页面
+Route::get('permission-denied', [pagesController::class, 'permissionDenied'])->name('permission-denied');
