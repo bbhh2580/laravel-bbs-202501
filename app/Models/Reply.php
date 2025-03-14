@@ -57,7 +57,7 @@ class Reply extends Model
      */
     public function child(): HasMany
     {
-        return $this->hasMany(Reply::class, 'parent_id');
+        return $this->hasMany(Reply::class, 'parent_id')->orderByDesc('created_at');
     }
 
     /**

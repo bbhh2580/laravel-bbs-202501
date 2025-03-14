@@ -63,7 +63,7 @@ class Topic extends Model
      */
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class)->where('parent_id', 0);
+        return $this->hasMany(Reply::class)->where('parent_id', 0)->orderByDesc('created_at');
     }
 
     /**
