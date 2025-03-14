@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
@@ -133,5 +134,39 @@ class User extends Authenticatable implements MustVerifyEmail
         // This is a method of the Notifiable trait from Laravel.
         // It will mark all the unread notifications as read.
         $this->unreadNotifications->markAsRead();
+    }
+
+    /**
+     * Encrypt the password
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setPasswordAttribute(string $value): void
+    {
+        // 如果值的长度是60， 即认为已经是加密过的密码
+        if(strlen($value) != 60) {
+            $value = bcrypt($value);
+        }
+
+        $this->attributes['password'] = $value;
+    }
+
+    /**
+     * Set the avatar attribute.
+     *
+     * @param string $path
+     * @return void
+     */
+    public function setAvatarAttribute(string $path): void
+    {
+        // 如果不是`http` 子串开头， 那就是从后台上传的，需要补全URL
+        if(!Str::startsWith($path, 'http')) {
+
+            // 拼接完整的 URL
+            $path = config('app.url') . "/uploads/images/avatars/$path";
+        }
+
+        $this->attributes['avatar'] = $path;
     }
 }
