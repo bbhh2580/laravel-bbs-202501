@@ -23,11 +23,11 @@ class UserFactory extends Factory
         $updatedAt = (rand(0, 1) ? $createdAt->clone()->addHours(rand(1, 48)) : $createdAt); // 有一定概率相同
 
         $avatars = [
-            config('app.url') . '/uploads/images/avatars/202502/26/1.jpg',
-            config('app.url') . '/uploads/images/avatars/202502/26/2.jpg',
-            config('app.url') . '/uploads/images/avatars/202502/26/3.jpg',
-            config('app.url') . '/uploads/images/avatars/202502/26/4.jpg',
-            config('app.url') . '/uploads/images/avatars/202502/26/5.jpg',
+            config('app.url') . '/uploads/images/default-avatars/1.jpg',
+            config('app.url') . '/uploads/images/default-avatars/2.jpg',
+            config('app.url') . '/uploads/images/default-avatars/3.jpg',
+            config('app.url') . '/uploads/images/default-avatars/4.jpg',
+            config('app.url') . '/uploads/images/default-avatars/5.jpg',
         ];
 
         return [
