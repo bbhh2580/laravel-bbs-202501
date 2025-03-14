@@ -2,19 +2,21 @@
 
     <ul class="list-group mt-4 border-0">
         @foreach ($topics as $topic)
-            <li class="list-group-item pl-2 pr-2 border-start-0 border-end-0 @if($loop->first)border-top-0 @endif">
+            <li class="list-group-item pl-2 pr-2 border-start-0 border-end-0 @if($loop->first) border-top-0 @endif">
                 <a class="text-decoration-none" href="{{ route('topics.show', $topic->id) }}">
                     {{ $topic->title }}
                 </a>
                 <span class="meta float-right text-secondary">
-                    {{ $topic->reply_count }} replies
-                </span>
+          {{ $topic->reply_count }} replies
+          <span> ⋅ </span>
+          {{ $topic->created_at->diffForHumans() }}
+        </span>
             </li>
         @endforeach
     </ul>
 
 @else
-    <div class="empty-block">No posts yet.</div>
+    <div class="empty-block mt-4 ms-3">No posts yet.</div>
 @endif
 
 {{-- 分页 --}}

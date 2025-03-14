@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
 // POST       password/email ...... password.email › Auth\ForgotPasswordController@sendResetLinkEmail
 
 // 用户个人中心相关路由
-Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'edit', 'update']]);
+Route::resource('users', 'UsersController', ['only' => ['show', 'edit', 'update']]);
 
 // 话题相关的路由
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'show',

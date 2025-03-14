@@ -137,15 +137,17 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Encrypt the password
+     * Encrypt the password.
      *
      * @param string $value
      * @return void
      */
     public function setPasswordAttribute(string $value): void
     {
-        // 如果值的长度是60， 即认为已经是加密过的密码
-        if(strlen($value) != 60) {
+        // 如果值的长度等于 60，即认为是已经加密过的密码
+        if (strlen($value) != 60) {
+
+            // 如果不是 60 位长度的就进行加密
             $value = bcrypt($value);
         }
 
@@ -160,8 +162,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function setAvatarAttribute(string $path): void
     {
-        // 如果不是`http` 子串开头， 那就是从后台上传的，需要补全URL
-        if(!Str::startsWith($path, 'http')) {
+        // 如果不是 `http` 子串开头，那就是从后台上传的，需要补充全 URL
+        if (!Str::startsWith($path, 'http')) {
 
             // 拼接完整的 URL
             $path = config('app.url') . "/uploads/images/avatars/$path";
