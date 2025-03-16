@@ -71,6 +71,9 @@ return array(
             'categories',
             'topics',
             'replies',
+        ],
+        '站点管理' => [
+            'settings.site',
         ]
     ],
 
@@ -106,7 +109,7 @@ return array(
      *
      * @type string
      */
-    'home_page' => 'users',
+    'home_page' => 'topics',
 
     /*
      * The route to which the user will be taken when they click the "back to site" button
@@ -117,25 +120,26 @@ return array(
     'back_to_site_path' => '/',
 
     /*
-     * The login path is the path where Administrator will send the user if they fail a permission check
-     * 当用户没有权限访问后台时, 将会跳转到这个路径
+     *  The login path is the path where Administrator will send the user if they fail a permission check
+     *  当选项`permission` 检测不通过时，用户将被重新定向到登录页面
      *
      * @type string
      */
-    'login_path' => 'login',
+    'login_path' => 'permission-denied',
 
     /*
-     * The logout path is the path where Administrator will send the user when they click the logout link
+     *  The logout path is the path where Administrator will send the user when they click the logout link
      *
      * @type string
      */
     'logout_path' => false,
 
     /*
-     * This is the key of the return path that is sent with the redirection to your login_action. Session::get('redirect') will hold the return URL.
-     * 允许在登录成功使用 Session::get('redirect') 将用户重定向到后台原本想访问的页面
+     *  This is the key of the return path that is sent with the redirection to your login_action.
+     *  Session::get('redirect') will hold the return URL.
+     *  允许在登录成功使用 Session::get('redirect') 将用户重新定向到后台原本想访问的页面
      *
-     * @type string
+     *  @type string
      */
     'login_redirect_key' => 'redirect',
 
