@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
-
 class PagesController extends Controller
 {
     /**
@@ -25,7 +24,7 @@ class PagesController extends Controller
     /**
      * Permission denied page
      *
-     * @return Factory|view|RedirectResponse|Application
+     * @return Factory|View|Redirector|RedirectResponse|Application
      */
     public function permissionDenied(): View|Factory|Redirector|RedirectResponse|Application
     {
