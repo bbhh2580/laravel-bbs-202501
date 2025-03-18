@@ -11,9 +11,24 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        //
+        // 创建外键约束
+
+        Schema::table('topics', function (Blueprint $table) {
+
+            // 当user_id 对应的 users表中的用户被删除的时候，就会删除对应该用户的所有话题
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::table('replies', function (Blueprint $table) {
+
+            // 当user_id 对应的 users 表中的用户被删除的时候，就会删除对应该用户的所有回复
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            // 当topic_id 对应的 topics 表中的话题被删除的时候，就会删除对应该话题的所有回复
+            $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
+        });
     }
 
     /**
@@ -21,8 +36,17 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        //
+        // 移除外键约束
+
+        Schema::table('topics', function (Blueprint $table) {
+            $table->dropForeign('user_id');
+        });
+
+        Schema::table('replies', function (Blueprint $table) {
+            $table->dropForeign('user_id');
+            $table->dropForeign('topic_id');
+        });
     }
 };
