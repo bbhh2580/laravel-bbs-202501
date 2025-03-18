@@ -1,25 +1,63 @@
-@extends('layouts.app')
-@section('title', 'Permission Denied')
-
-@section('content')
-    <div class="col-md-4 offset-md-4">
-        <div class="card">
-            <div class="card-body">
-                @if(\Illuminate\Support\Facades\Auth::check())
-                    <div class="alert alert-danger text-center mb-0">
-                        Current user does not have permission to access this page.
-                    </div>
-                @else
-                    <div class="alert alert-danger text-center">
-                        Please login first.
-                    </div>
-
-                    <a href="{{ route('login') }}" class="btn btn-primary w-100">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Sign in
-                    </a>
-                @endif
-            </div>
-        </div>
+<div class="card ">
+    <div class="card-body">
+        <a href="{{ route('topics.create') }}" class="btn btn-success w-100" aria-label="Left Align">
+            <i class="fas fa-pencil-alt me-2"></i> New Topic
+        </a>
     </div>
-@endsection
+</div>
+
+{{--@if(count($active_users))--}}
+{{--    <div class="card mt-4">--}}
+{{--        <div class="card-body active-users pt-2">--}}
+{{--            <div class="text-center mt-1 mb-0 text-muted">Active Users</div>--}}
+{{--            <hr class="mt-2">--}}
+{{--            @foreach($active_users as $user)--}}
+{{--                <a class="d-flex mt-2 text-decoration-none ms-3" href="{{ route('users.show', $user->id) }}">--}}
+{{--                    <div class="media-left media-middle me-2 ms-1">--}}
+{{--                        <img src="{{ $user->avatar }}" class="media-object" width="24px" height="24px"--}}
+{{--                             alt="{{ $user->name }}">--}}
+{{--                    </div>--}}
+{{--                    <div class="media-body ms-1">--}}
+{{--                        <small class="media-heading text-secondary">{{ $user->name }}</small>--}}
+{{--                    </div>--}}
+{{--                </a>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--@endif--}}
+{{--@if(count($active_users))--}}
+{{--    <div class="card mt-4">--}}
+{{--        <div class="card-body active-users pt-2">--}}
+{{--            <div class="text-center mt-1 mb-0 text-muted">Active Users</div>--}}
+{{--            <hr class="mt-2">--}}
+{{--            @foreach($active_users as $user)--}}
+{{--                <a class="d-flex mt-2 text-decoration-none ms-3" href="{{ route('users.show', $user->id) }}">--}}
+{{--                    <div class="media-left media-middle me-2 ms-1">--}}
+{{--                        <img src="{{ $user->avatar }}" class="media-object" width="24px" height="24px"--}}
+{{--                             alt="{{ $user->name }}">--}}
+{{--                    </div>--}}
+{{--                    <div class="media-body ms-1">--}}
+{{--                        <small class="media-heading text-secondary">{{ $user->name }}</small>--}}
+{{--                    </div>--}}
+{{--                </a>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--@endif--}}
+
+
+{{--@if(count($links))--}}
+{{--    <div class="card mt-4">--}}
+{{--        <div class="card-body pt-2">--}}
+{{--            <div class="text-center mt-1 mb-0 text-muted">Links</div>--}}
+{{--            <hr class="mt-2">--}}
+{{--            @foreach($links as $link)--}}
+{{--                <a class="d-flex mt-2 text-decoration-none ms-3" href="{{ $link->link }}">--}}
+{{--                    <div class="media-body">--}}
+{{--                        <span class="media-heading text-muted">{{ $link->title }}</span>--}}
+{{--                    </div>--}}
+{{--                </a>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--@endif--}}

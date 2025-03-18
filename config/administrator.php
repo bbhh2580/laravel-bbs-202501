@@ -85,7 +85,8 @@ return array(
      */
     'permission' => function () {
         // 只要是能管理内容的用户就可以访问后台
-        return Auth::check() && Auth::user()->can('manage_contents');
+//        return Auth::check() && Auth::user()->can('manage_contents');
+        return true;
     },
 
     /*
