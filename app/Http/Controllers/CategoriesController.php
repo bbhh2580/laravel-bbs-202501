@@ -23,7 +23,7 @@ class CategoriesController extends Controller
      * @param Link $link
      * @return Factory|View|Application
      */
-    public function show(Category $category, Request $request, Topic $topic): Factory|View|Application
+    public function show(Category $category, Request $request, Topic $topic, Link $link, User $user): Factory|View|Application
     {
         $topics = $topic->withOrder($request->order)
             ->where('category_id', $category->id)
@@ -32,6 +32,7 @@ class CategoriesController extends Controller
 
         $active_users = $user->getActiveUsers();
         $links = $link->getAllCached();
-        return view('topics.index', compact('topics', 'category'));
+
+        return view('topics.index', compact('topics', 'category', 'active_users', 'links'));
     }
 }

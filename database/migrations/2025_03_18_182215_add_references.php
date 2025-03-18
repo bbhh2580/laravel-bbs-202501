@@ -11,14 +11,9 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('links', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title')->comment('资源的标题')->index();
-            $table->string('link')->comment('资源的连接')->index();
-            $table->timestamps();
-        });
+        //
     }
 
     /**
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('links');
+        //
     }
 };

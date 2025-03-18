@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\Request;
 use App\Models\Category;
+use App\Models\Link;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -35,15 +36,16 @@ class TopicsController extends Controller
      * @param User $user
      * @return Factory|View|Application
      */
-    public function index(Request $request, Topic $topic, User $user): Factory|View|Application
+    public function index(Request $request, Topic $topic, User $user, Link $link): Factory|View|Application
     {
         $topics = $topic->withOrder($request->order)
             ->with('user', 'category') // 使用 with 方法预加载防止 N+1 问题
             ->paginate(20);
 
         $active_users = $user->getActiveUsers();
+        $links = $link->getAllCached();
 
-        return view('topics.index', compact('topics', 'active_users'));
+        return view('topics.index', compact('topics', 'active_users', 'links'));
     }
 
     /**
