@@ -38,15 +38,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // 移除外键约束
-
         Schema::table('topics', function (Blueprint $table) {
-            $table->dropForeign('user_id');
+            $table->dropForeign(['user_id']); // ✅ 或写成 'topics_user_id_foreign'
         });
 
         Schema::table('replies', function (Blueprint $table) {
-            $table->dropForeign('user_id');
-            $table->dropForeign('topic_id');
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['topic_id']); // 注意这里也别写错！
         });
     }
 };

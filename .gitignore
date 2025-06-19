@@ -17,3 +17,4 @@ yarn-error.log
 /public/uploads/images/avatars/*
 # Ignore topic images
 /public/uploads/images/topics/*
+.DS_Store
